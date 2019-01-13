@@ -33,16 +33,26 @@ class App extends Component {
     this.setState({ todos: todos });
   }
 
+  deleteTodoItemHandler (index) {
+    const _todos = this.state.todos.map(({...item}) => item)
+    _todos.splice(index, 1)
+    this.setState({ todos: _todos })
+  }
+
   render() {
     return (
       <div className="App">
         <ul>
-          { this.state.todos.map( (todo,index) =>
-            <ToDo key={ index } 
-              description={ todo.description } 
-              isCompleted={ todo.isCompleted } 
-              toggleComplete={ () => this.toggleComplete(index) } />
-            )}
+          { 
+            this.state.todos.map((todo, index) => {
+              return <ToDo key={ index } 
+                description={ todo.description } 
+                isCompleted={ todo.isCompleted } 
+                toggleComplete={ () => this.toggleComplete(index) }
+                deleteTodo={ () => this.deleteTodoItemHandler(index) } 
+              />
+            })
+          }
         </ul>
         <form onSubmit={ (e) => this.handleSubmit(e) }>
            <input type="text" 
